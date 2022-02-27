@@ -15,4 +15,3 @@ Tip:  Think about the little theorem we just worked with. How does this help you
 
 Solution = """
 13 prime, 13 -| 3 ==> (fermat's little theorem) 3^(13-1) = 1 mod 13 =>  solution = 3^11mod13 = 9"""
-
