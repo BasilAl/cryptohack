@@ -28,8 +28,7 @@ Find the integer a such that x ≡ a mod 935
 
 Tip: Starting with the congruence with the largest modulus, use that for x ≡ a mod p we can write x = a + k*p for arbitrary integer k."""
 
-SOLUTION = 
-'''
+SOLUTION = '''
 Apo to kineziko thewrima ypoloipwn exoume:
 
 
