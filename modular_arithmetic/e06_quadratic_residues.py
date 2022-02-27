@@ -28,7 +28,11 @@ ints = [14, 6, 11] """
 
 p = 29
 ints = [14,6,11]
-
+def a():
+    n = 1
+    while n<3:
+        yield n
+        n+=1
 r = a()
 for i in range(p):
     for j in range(len(ints)):
@@ -37,10 +41,3 @@ for i in range(p):
             
             
             
-            
-
-def a():
-    n = 1
-    while n<3:
-        yield n
-        n+=1
