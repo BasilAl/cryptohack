@@ -52,14 +52,6 @@ inv_s_box = (
     0x17, 0x2B, 0x04, 0x7E, 0xBA, 0x77, 0xD6, 0x26, 0xE1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0C, 0x7D,
 )
 
-from matrix import matrix2bytes
-
-state = [
-    [251, 64, 182, 81],
-    [146, 168, 33, 80],
-    [199, 159, 195, 24],
-    [64, 80, 182, 255],
-]
 
 def sub_bytes(s, sbox=s_box):
     sub_state = []
@@ -68,8 +60,17 @@ def sub_bytes(s, sbox=s_box):
         for j in range(len(state[i])):
             l.append(sbox[state[i][j]])
         sub_state.append(l)
-    return matrix2bytes(sub_state)
+    return sub_state
 
 if __name__ == "__main__":
-    print(sub_bytes(state, sbox=inv_s_box))
+    from matrix import matrix2bytes
+
+    state = [
+        [251, 64, 182, 81],
+        [146, 168, 33, 80],
+        [199, 159, 195, 24],
+        [64, 80, 182, 255],
+    ]
+    flag = matrix2bytes(sub_bytes(state, sbox=inv_s_box))
+    print(flag)
 

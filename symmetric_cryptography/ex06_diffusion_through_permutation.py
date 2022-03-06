@@ -68,14 +68,14 @@ def inv_mix_columns(s):
 
     mix_columns(s)
 
+if __name__ == "__main__":
+    state = [
+        [108, 106, 71, 86],
+        [96, 62, 38, 72],
+        [42, 184, 92, 209],
+        [94, 79, 8, 54],
+    ]
 
-state = [
-    [108, 106, 71, 86],
-    [96, 62, 38, 72],
-    [42, 184, 92, 209],
-    [94, 79, 8, 54],
-]
-
-inv_mix_columns(state)
-inv_shift_rows(state)
-print(matrix2bytes(state))
+    inv_mix_columns(state)
+    inv_shift_rows(state)
+    print(matrix2bytes(state))

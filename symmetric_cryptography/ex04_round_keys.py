@@ -41,7 +41,7 @@ def add_round_key(s, k):
 
     return ks
 
-
-print(matrix2bytes(add_round_key(state, round_key)))
+if __name__ == "__main__":
+    print(matrix2bytes(add_round_key(state, round_key)))
 # print(add_round_key(state, round_key))
 
