@@ -47,6 +47,6 @@ state = [
 def sub_bytes(s, sbox=s_box):
     pass
 
-
-print(sub_bytes(state, sbox=inv_s_box))
+if __name__ == "__main__":
+    print(sub_bytes(state, sbox=inv_s_box))
 

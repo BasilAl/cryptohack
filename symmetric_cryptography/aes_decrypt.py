@@ -90,11 +90,4 @@ def decrypt(key, ciphertext):
 
     return plaintext
 
-
-# print(bytes2matrix(ciphertext))
-
-for k in expand_key(key):
-    print(k)
-
-
 print(decrypt(key, ciphertext))
