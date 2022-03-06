@@ -53,7 +53,7 @@ inv_s_box = (
 )
 
 
-def sub_bytes(s, sbox=s_box):
+def sub_bytes(state, sbox=s_box):
     sub_state = []
     for i in range(len(state)):
         l = []

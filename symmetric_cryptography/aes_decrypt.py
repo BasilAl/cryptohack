@@ -74,26 +74,27 @@ def decrypt(key, ciphertext):
 
     # Convert ciphertext to state matrix
     state = bytes2matrix(ciphertext)
-
     # Initial add round key step
-    state = add_round_key(state, round_keys[0])
-
+    state = add_round_key(state, round_keys[len(round_keys)-1])
     for i in range(N_ROUNDS - 1, 0, -1):
-        inv_mix_columns(state)
+        inv_shift_rows(state)
+        state = sub_bytes(state, sbox=inv_s_box)
         state = add_round_key(state, round_keys[i]) # mipws thelei me anapodi seira?
-        
-
+        inv_mix_columns(state)
     # Run final round (skips the InvMixColumns step)
-
+    inv_shift_rows(state)
+    state = sub_bytes(state, sbox=inv_s_box)
+    state = add_round_key(state, round_keys[0])
     # Convert state matrix to plaintext
+    plaintext = matrix2bytes(state)
 
     return plaintext
 
 
-print(bytes2matrix(ciphertext))
+# print(bytes2matrix(ciphertext))
 
 for k in expand_key(key):
     print(k)
 
 
-# print(decrypt(key, ciphertext))
+print(decrypt(key, ciphertext))
