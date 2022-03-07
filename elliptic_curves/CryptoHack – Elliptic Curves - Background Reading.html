@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html dir="ltr" class="dark-mode" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <title>CryptoHack – Elliptic Curves - Background Reading</title>
+
+        <link rel="stylesheet" type="text/css" href="CryptoHack%20%E2%80%93%20Elliptic%20Curves%20-%20Background%20Reading_files/materialize.css">
+        <link rel="stylesheet" type="text/css" href="CryptoHack%20%E2%80%93%20Elliptic%20Curves%20-%20Background%20Reading_files/main.css">
+        <link rel="stylesheet" type="text/css" href="CryptoHack%20%E2%80%93%20Elliptic%20Curves%20-%20Background%20Reading_files/light.css">
+
+        <link rel="stylesheet" type="text/css" href="CryptoHack%20%E2%80%93%20Elliptic%20Curves%20-%20Background%20Reading_files/flag-icon.css">
+        <link rel="stylesheet" type="text/css" href="CryptoHack%20%E2%80%93%20Elliptic%20Curves%20-%20Background%20Reading_files/all.css">
+        <link rel="stylesheet" type="text/css" href="CryptoHack%20%E2%80%93%20Elliptic%20Curves%20-%20Background%20Reading_files/v4-shims.css">
+
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        
+
+
+        <!-- Generic Metadata -->
+        <link rel="canonical" href="https://cryptohack.org/">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://cryptohack.org">
+        <meta property="og:site_name" content="CryptoHack">
+        <meta property="og:image" content="https://cryptohack.org/static/img/banner.png">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@CryptoHack__">
+        <meta name="twitter:image" content="https://cryptohack.org/static/img/banner.png">
+
+        <!-- Favicon -->
+        <link rel="apple-touch-icon" sizes="57x57" href="https://cryptohack.org/static/favicon/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="https://cryptohack.org/static/favicon/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="https://cryptohack.org/static/favicon/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="https://cryptohack.org/static/favicon/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="https://cryptohack.org/static/favicon/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="https://cryptohack.org/static/favicon/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="https://cryptohack.org/static/favicon/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="https://cryptohack.org/static/favicon/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="https://cryptohack.org/static/favicon/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="36x36" href="https://cryptohack.org/static/favicon/android-icon-36x36.png">
+        <link rel="icon" type="image/png" sizes="48x48" href="https://cryptohack.org/static/favicon/android-icon-48x48.png">
+        <link rel="icon" type="image/png" sizes="72x72" href="https://cryptohack.org/static/favicon/android-icon-72x72.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="https://cryptohack.org/static/favicon/android-icon-96x96.png">
+        <link rel="icon" type="image/png" sizes="144x144" href="https://cryptohack.org/static/favicon/android-icon-144x144.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="https://cryptohack.org/static/favicon/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="https://cryptohack.org/static/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="https://cryptohack.org/static/favicon/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="https://cryptohack.org/static/favicon/favicon-16x16.png">
+
+        <script>
+            function isLightThemeSelected() {
+                return document.cookie.match(/theme=light/i) != null
+            }
+
+            function setThemeFromCookie() {
+                var html = document.getElementsByTagName('html')[0]
+                html.className = isLightThemeSelected() ? 'light-mode' : 'dark-mode'
+                console.log('Loaded cookie: ' + document.cookie)
+            }
+
+            (function() {
+              setThemeFromCookie()
+            })();
+        </script>
+    </head>
+    <body class="competition-page">
+      <div class="wrapper">
+        <header>
+            <nav class="top-nav nav-fixed">
+                <div class="nav-wrapper">
+
+                    <div><a href="#" data-activates="nav-mobile" class="button-collapse top-nav full"><i class="fas fa-bars" aria-label="Menu Bars"></i></a></div>
+                    <a class="logo-link" href="https://cryptohack.org/"><span class="outline">CRYPTOHACK</span></a>
+
+                    
+                    <div class="navProgress">
+                        <span><i class="fas fa-bolt gold-text tooltipped" data-tooltip="Level" data-tooltip-id="ada2b3a4-0ed3-c64d-c6d9-5505e86674f5"></i><span id="playerLevel">8</span></span>
+                        <span><i class="fas fa-star gold-text tooltipped" data-tooltip="Points" data-tooltip-id="5e65373b-1234-e912-5f75-1cab86e9334c"></i><span id="playerScore">665</span></span>
+                        <!-- <span><i class="fas fa-trophy gold-text tooltipped" data-tooltip="Trophies"></i>27</span> -->
+
+                        <div id="progressBar" class="progressBar tooltipped" data-tooltip="615 points to next level (665/1280)" data-tooltip-id="45317d01-c4bf-e1ae-13ca-c3bc86ddd49a">
+                            <div id="playerProgress" class="progressBar progress" style="width: 3.90625%;"></div>
+                        </div>
+                    </div>
+                    
+
+                    <ul class="right hide-on-med-and-down">
+                        
+                    </ul>
+                </div>
+
+            </nav>
+            <ul id="nav-mobile" class="side-nav fixed" style="width: 240px;">
+
+
+                <li><a href="https://cryptohack.org/courses/">
+                    <div class="side-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="side-text">Courses</div>
+                </a></li>
+
+                <li><a href="https://cryptohack.org/challenges/">
+                    <div class="side-icon"><i class="fas fa-flag"></i></div>
+                    <div class="side-text">Challenges</div>
+                </a></li>
+
+                <!-- <div class="divider" /></div> -->
+                
+                <li><a href="https://cryptohack.org/scoreboard/">
+                    <div class="side-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="side-text">Scoreboard</div>
+                </a></li>
+
+                <li><a href="https://cryptohack.org/blog/">
+                    <div class="side-icon"><i class="fas fa-brain" style="margin-left: -2px;"></i></div>
+                    <div class="side-text">Blog</div>
+                </a></li>
+
+                <li><a href="https://cryptohack.org/chat/">
+                    <div class="side-icon"><i class="fas fa-comments"></i></div>
+<!--                     <div class="side-icon"><img src="/static/img/Discord-Logo-Color.svg" width="25" style="margin: 14px 0 0 -5px;"></div> -->
+                    <div class="side-text">Chat</div>
+                </a></li>
+
+                <li><a href="https://cryptohack.org/careers/">
+                    <div class="side-icon"><i class="fas fa-briefcase"></i></div>
+                    <div class="side-text">Careers</div>
+                </a></li>
+
+                <li><a href="https://cryptohack.org/faq/">
+                    <div class="side-icon"><i class="fas fa-question"></i></div>
+                    <div class="side-text">FAQ</div>
+                </a></li>
+
+                
+                <li><a href="https://cryptohack.org/user/Stirlitz/">
+                    <div class="side-icon"><i class="fas fa-user-circle"></i></div>
+                    <div class="side-text side-username">Stirlitz</div>
+                </a></li>
+                
+
+                
+                <li><a href="https://cryptohack.org/logout/">
+                    <div class="side-icon"><i class="fas fa-sign-out-alt"></i></div>
+                    <div class="side-text">Logout</div>
+                    </a></li>
+                
+
+                
+            </ul>
+        </header>
+        <div class="cont">
+            
+        </div>
+        <div class="cont">
+            
+
+
+<div class="course-page">
+
+<div class="course-navigation">
+    <div>
+        
+        <a href="https://cryptohack.org/courses/elliptic/course_details/" class="btn course-nav-btn">&lt;--&nbsp;Prev</a><br>
+        
+    </div>
+    <div class="course-title-box"><h2 class="course-title">Elliptic Curves</h2></div>
+    <div>
+        
+        <a id="nextBtnTop" href="https://cryptohack.org/courses/elliptic/ecc0/" class="btn course-nav-btn ">Next&nbsp;--&gt;</a>
+        
+    </div>
+</div>
+
+
+<ul>
+    <li class="course-challenge-card challenge active" data-category="70">
+        <div id="header-bg" data-challenge="bg" class="collapsible-header active" style="cursor: auto;">
+            
+            <i id="check-bg" class="fas fa-star gold-text tooltipped" style="display: none;" data-tooltip="You have solved this challenge" data-tooltip-id="415cecdc-82a1-05ad-9cb6-0edf9584fa49"></i>
+            <i id="uncheck-bg" class="far fa-star grey-text tooltipped" data-tooltip="You have not yet solved this challenge" data-tooltip-id="0b31651b-9800-40a1-5a9e-ec372b4105b5"></i>
+            
+            <div class="challenge-text truncate">Background Reading</div>
+            <span class="right">
+                5 pts
+                <span class="mobileSolves">
+                <b>·</b>
+                
+                <a class="gold-link preventToggle" href="https://cryptohack.org/challenges/bg/solves/">
+                    <span id="solves-bg">1612 Solves</span>
+                </a>
+                
+                
+                </span>
+            </span>
+        </div>
+        <div class="collapsible-body" style="display: block">
+            <p>
+                Elliptic Curve Cryptography (ECC) is an asymmetric 
+cryptographic protocol that, like RSA and Diffie-Hellman (DH), relies on
+ a trapdoor function. To recap: trapdoor functions allow a client to 
+keep data secret by performing a mathematical operation which is 
+computationally easy to do, but currently understood to be very 
+expensive to undo.<br><br>For RSA, the trapdoor function relies on the 
+hardness of factoring large numbers. For Diffie-Hellman, the trapdoor 
+relies on the hardness of the discrete log problem. For both RSA and DH,
+ the operations that run through the veins of the protocol are familiar 
+to us. Multiplying numbers and taking powers of numbers are things we 
+are taught to do in school. ECC stands out, because the group operation 
+in ECC won't pop up in your life unless you are looking for it.<br><br><span class="note"><i class="fas fa-pencil-alt"></i>This discussion here will not be total, and those who are really looking to understand ECC, I recommend these notes <a href="https://crypto.stanford.edu/pbc/notes/elliptic/" target="_blank" rel="noopener">Elliptic Curve notes by Ben Lynn</a>, and the textbook "An Introduction to Mathematical Cryptography", <em>Jeffrey Hoffstein, Jill Pipher, Joseph H. Silverman</em>.</span><br><br>Let's
+ start thinking about ECC by looking at what we mean by an elliptic 
+curve. We will be studying Weierstrass equations, which are of the form<br><br><span class="mathBlock">Y<sup>2</sup> = X<sup>3</sup> + a X + b</span><br><br>Elliptic
+ curves have an amazing feature: we can define an operator that we will 
+call "point addition". This operator takes two points on some curve and 
+produces a third point on the curve. Taking the set of points on an 
+elliptic curve, point addition defines an Abelian group operation.<br><br><span class="note"><i class="fas fa-brain"></i>There's
+ a lot of text here. Let's motivate this! We can understand scalar 
+multiplication of a point as the repeated point addition of the same 
+point. <code>Q = 2 P = P + P</code>. It turns out that scalar multiplication is a trapdoor function! ECC relies on the hardness of finding the <code>n</code> such that <code>Q = nP</code> given <code>Q</code> and <code>P</code>.</span><br><br><b>So how do we understand point addition? </b><br><br>Geometrically, we can understand point addition <code>P + Q</code> like so. Take an elliptic curve and mark the two points <code>P, Q</code> along the curve with their <code>x,y</code>
+ coordinates. Draw a straight line that passes through both points. Now 
+continue the line until it intersects your curve a third time. Mark this
+ new intersection <code>R</code>. Finally, take <code>R</code> and reflect it along the <code>y</code> direction to produce <code>R' = R(x,-y)</code>. The result of the point addition is <code>P + Q = R'</code><br><br>What if we want to add two of the same point together: <code>P + P</code>?
+ We can't draw a unique line through one point, but we can pick a unique
+ line by calculating the tangent line to the curve at the point. 
+Calculate the tangent line at the point <code>P</code>. Continue the line until it intersects with the curve at point <code>R</code>. Reflect this point as before: <code>P + P = R' = R(x,-y)</code>.<br><br>What happens if there is no third intersection? Sometimes you will pick two points <code>P, Q</code> and the line will not touch the curve again. In this case we say that the line intersects with the point (<code>O</code>)
+ which is a single point located at the end of every vertical line at 
+infinity. As such, point addition for an elliptic curve is defined in 2D
+ space, with an additional point located at infinity.<br><br>Included below is a diagram as a visual aid to these different cases</p><br><br><p style="text-align: center; margin: -5em 0;"> <img style="max-width: 100%;" src="CryptoHack%20%E2%80%93%20Elliptic%20Curves%20-%20Background%20Reading_files/ECClines.svg" alt="diagram of ECC addition"> </p> <p><br><br>The point <code>O</code> acts as the identity operator of the group: <code>P + O = P</code> and <code>P + (-P) = O</code>.<br><br>This brings us to the point of defining an elliptic curve.<br><br><b>Definition</b>: An elliptic curve E is the set of solutions to a Weierstrass equation<br><br><span class="codeBlock">E: Y<sup>2</sup> = X<sup>3</sup> + a X + b</span><br><br>together with a point at infinity <code>O</code>. The constants <code>a,b</code> must satisfy the relationship<br><br><span class="codeBlock">4a<sup>3</sup> + 27 b<sup>2</sup> ≠ 0</span><br><br>to ensure there are no singularities on the curve.<br><br>Formally, let E be an elliptic curve, point addition has the following properties<br><br><span class="mathBlock"> (a) P + O = O + P = P <br> (b) P + (−P) = O <br> (c) (P + Q) + R = P + (Q + R) <br> (d) P + Q = Q + P </span><br><br>In ECC, we study elliptic curves over a finite field <code>F<sub>p</sub></code>. This means we look at the curve modulo the characteristic <code>p</code> and an elliptic curve will no longer be a curve, but a collection of points whose <code>x,y</code> coordinates are integers in <code>F<sub>p</sub></code>.<br><br>The
+ following starter challenges will take you through the calculations for
+ ECC and get you used to the basic operations that ECC is built upon, 
+have fun!<br><br>Property <code>(d)</code> shows that point addition is commutative. The flag is the name we give groups with a commutative operation.
+                
+            </p>
+
+            <p id="youvesolved-bg" class="solvedMessage" style="display: none">
+                You have solved this challenge!
+                
+            </p>
+            <div id="youvesolvedgap-bg" style="display: none"><br></div>
+
+            
+            <form class="flag-form" action="/submit/bg/" data-challenge="bg" data-points="5" method="POST" id="flagform-bg">
+                <div class="row no-bot">
+                    <div class="col s12 m10 flag-submit-line">
+                        <div class="input-field">
+                            <input required="" id="flag-bg" name="flag" type="text" autocomplete="off">
+                            <label for="flag-bg" class="">
+                            
+                            Enter flag here: crypto{Name}
+                            
+                        </label></div>
+                    </div>
+                    <div class="col s12 m2">
+                        <button class="btn waves-effect waves-light flag-submit" type="submit"><div class="loader">Loading</div>Submit</button>
+                    </div>
+                    <input name="_csrf_token" type="hidden" value="6tewy7q7i46j6e7d17hll2uzohgc3qh28opjnajh62qsphj1o9kdvmmc6p9jhbt5">
+                </div>
+            </form>
+            <br>
+            
+    </div></li>
+</ul>
+
+
+<div class="course-navigation lower">
+    <div>
+        
+        <a href="https://cryptohack.org/courses/elliptic/course_details/" class="btn course-nav-btn">&lt;-- Prev</a><br>
+        
+    </div>
+
+    <div class="course-progress"> 
+      <div id="courseProgress" class="course-sticker tooltipped" data-tooltip="You've solved 0 of 11 challenges in this course (0%)" data-tooltip-id="8065fda7-bbb5-ad7b-2168-97da7c1c56a3">
+        <div id="courseProgressColor" class="course-sticker-color" style="max-height: 0%;">
+          <img src="CryptoHack%20%E2%80%93%20Elliptic%20Curves%20-%20Background%20Reading_files/course-completed.png" alt="" width="50">
+        </div>
+      </div>
+    </div>
+
+    <div>
+        
+        <a id="nextBtnBot" href="https://cryptohack.org/courses/elliptic/ecc0/" class="btn course-nav-btn ">Next --&gt;</a>
+        
+    </div>
+</div>
+
+
+</div>
+
+        </div>
+        <!--
+        External js loaded:
+        jquery, materialize and confetti
+        -->
+        <script src="CryptoHack%20%E2%80%93%20Elliptic%20Curves%20-%20Background%20Reading_files/jquery.js"></script>
+        <script src="CryptoHack%20%E2%80%93%20Elliptic%20Curves%20-%20Background%20Reading_files/materialize.js"></script>
+        <script defer="defer" src="CryptoHack%20%E2%80%93%20Elliptic%20Curves%20-%20Background%20Reading_files/confetti.js"></script>
+        <script src="CryptoHack%20%E2%80%93%20Elliptic%20Curves%20-%20Background%20Reading_files/api.js"></script>
+        <script src="CryptoHack%20%E2%80%93%20Elliptic%20Curves%20-%20Background%20Reading_files/main.js"></script>
+        <script src="CryptoHack%20%E2%80%93%20Elliptic%20Curves%20-%20Background%20Reading_files/moment-with-locales.js"></script>
+<script>
+moment.locale("en");
+function flask_moment_render(elem) {
+    const timestamp = moment(elem.dataset.timestamp);
+    const func = elem.dataset.function;
+    const format = elem.dataset.format;
+    const timestamp2 = elem.dataset.timestamp2;
+    const no_suffix = elem.dataset.nosuffix;
+    const units = elem.dataset.units;
+    let args = [];
+    if (format)
+        args.push(format);
+    if (timestamp2)
+        args.push(moment(timestamp2));
+    if (no_suffix)
+        args.push(no_suffix);
+    if (units)
+        args.push(units);
+    elem.textContent = timestamp[func].apply(timestamp, args);
+    elem.classList.remove('flask-moment');
+    elem.style.display = "";
+}
+function flask_moment_render_all() {
+    const moments = document.querySelectorAll('.flask-moment');
+    moments.forEach(function(moment) {
+        flask_moment_render(moment);
+        const refresh = moment.dataset.refresh;
+        if (refresh && refresh > 0) {
+            (function(elem, interval) {
+                setInterval(function() {
+                    flask_moment_render(elem);
+                }, interval);
+            })(moment, refresh);
+        }
+    })
+}
+document.addEventListener("DOMContentLoaded", flask_moment_render_all);
+</script>
+        <!--
+        End external js
+        -->
+        <script>
+            function dismissNotification(id) {
+                api.makeCall("/dismiss/" + id + ".json", {_csrf_token: "6tewy7q7i46j6e7d17hll2uzohgc3qh28opjnajh62qsphj1o9kdvmmc6p9jhbt5"}, function() {
+                    $("#notification" + id).slideUp();
+                });
+            }
+        </script>
+        
+        <script>
+            function r(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            function launchConfetti(){
+                confetti({
+                  angle: r(70, 100),
+                  spread: r(60, 65),
+                  particleCount: 25,
+                  origin: {
+                      y: 0.2
+                  }
+                });
+            };
+        </script>
+        <script>
+            // Remove level up pop up on mouse click or enter or escape
+            document.body.onkeydown = function(e){
+              e = e || window.e;
+              var keycode = e.charCode || e.keyCode;
+              if( (keycode === 27 || keycode === 13) && $('#levelUpPop').css("display") == "flex"){
+                $('#levelUpPop').css("display", "none");
+              }
+            }
+            $(document).bind( "mouseup", function(e){
+              if ($('#levelUpPop').css("display") == "flex"){
+                $('#levelUpPop').css("display", "none");
+              }
+            });
+
+            async function levelUp(userPoints, i){
+              // fill bar and set points
+              $("#playerScore").text(userPoints);
+              $("#playerProgress").css("width", "100%");
+
+              // launch confetti and show pop up
+              launchConfetti();
+              $("#currentlevel").text(levelNames[i-1]);
+              $("#playerLevel").text(levelNames[i-1]);
+              $("#levelUpPop").css("display", "flex");
+
+              // empty bar, no animation
+              setTimeout(function(){
+                $("#playerProgress").css("transition", "width 0s ease");
+                $("#playerProgress").css("width", "0%");
+              }, 1100);
+
+              // set bar to current position
+              setTimeout(function(){
+                var pointsDiff = userPoints - pointsLevels[i-1]
+                var levelDiff = pointsLevels[i] - pointsLevels[i-1]
+                var percentComplete = 100 * (pointsDiff / levelDiff);
+                $("#playerProgress").css("transition", "width 0.9s ease");
+                $("#playerProgress").css("width", percentComplete + "%");
+                $("#progressBar").attr("data-tooltip", (pointsLevels[i] - userPoints) + " points to next level");
+              }, 1150);
+            }
+
+            function calculateLevel(currentPoints, gainedPoints) {
+                userPoints = currentPoints + gainedPoints;
+                for (var i = 0; i < pointsLevels.length; i++) {
+                    if (i != 0 && userPoints < pointsLevels[i] && currentPoints < pointsLevels[i-1]){
+                      levelUp(userPoints, i);
+                      return userPoints;
+                    }
+                    else if (userPoints < pointsLevels[i]) {
+                        var pointsDiff = userPoints - pointsLevels[i-1]
+                        var levelDiff = pointsLevels[i] - pointsLevels[i-1]
+                        var percentComplete = 100 * (pointsDiff / levelDiff);
+                        $("#playerScore").text(userPoints);
+                        $("#playerLevel").text(levelNames[i-1]);
+                        $("#playerProgress").css("width", percentComplete + "%");
+                        $("#progressBar").attr("data-tooltip", (pointsLevels[i] - userPoints) + " points to next level (" + userPoints + "/" + pointsLevels[i] + ")");
+                        return userPoints;
+                    }
+                }
+            }
+            var score = 665;
+            calculateLevel(score, 0);
+        </script>
+        
+        <script>
+        $(function() {
+            $('.button-collapse').sideNav();
+        });
+        </script>
+        <script id="toasts" type="text/javascript">
+            
+        </script>
+        
+
+
+<script>
+
+    function updateProgress(percentComplete, solvedChallenges) {
+        let newTooltip = "You've solved " + solvedChallenges + " of 11 challenges in this course (" + percentComplete + "%)"
+        $("#courseProgressColor").css("max-height", percentComplete + "%");
+        $("#courseProgress").attr("data-tooltip", newTooltip);
+    }
+
+    let initialPercentage = "0";
+    let solvedChallenges = "0"
+    updateProgress(initialPercentage, solvedChallenges);
+
+    $("form").submit(function(e) {
+        // Loading button
+        var loadBtn = $(this).find(".loader");
+        loadBtn.show();
+
+        var id = $(this).data("challenge");
+        var points = $(this).data("points");
+        var flag = $("#flag-" + id).val();
+        // var updatedScore = score + points;
+        console.log(id);
+        console.log(flag);
+        api.makeCall("/submit/" + id + ".json", {flag: flag, _csrf_token: "6tewy7q7i46j6e7d17hll2uzohgc3qh28opjnajh62qsphj1o9kdvmmc6p9jhbt5"}, function(data) {
+            if(data.code) {
+                loadBtn.hide();
+                Materialize.toast(data.message, 4000);
+            }
+            else {
+                // Compute new percentage
+                let solvedTotal = parseInt("0") + 1;
+                let maxTotal = "11"
+                let percentage = parseInt((solvedTotal / maxTotal) * 100);
+                updateProgress(percentage, solvedTotal);
+
+                // Materialize.toast("Correct flag, nice one!", 4000);
+                $("#uncheck-" + id).hide();
+                $("#check-" + id).show();
+                $("#header-" + id).click();
+
+                // update solves box
+                var solves_text = data.solves == 1 ? "Solve" : "Solves";
+                $("#solves-" + id).html(data.solves + " " + solves_text);
+                $("#solves-" + id).parent().show();
+                $("#solutions-" + id).show();
+                $("#youvesolved-" + id).show();
+                $("#youvesolvedgap-" + id).show();
+                $("#empty-" + id).hide();
+                $("#flagform-" + id).hide();
+
+                // update nav bar
+                $("#nextBtnTop").addClass("solved");
+                $("#nextBtnBot").addClass("solved");
+
+                // update points at top
+                console.log(score);
+                console.log(points);
+                score = calculateLevel(score, points);
+                loadBtn.hide();
+                setTimeout(function(){ launchConfetti(); }, 250);
+            }
+        });
+        return false;
+    });
+</script>
+
+
+      </div>
+
+      <div id="levelUpPop" class="levelup">
+        <div class="levelUpCard">
+          <h3>Level Up</h3>
+          <img src="CryptoHack%20%E2%80%93%20Elliptic%20Curves%20-%20Background%20Reading_files/levelup.png" alt="level up icon" width="180" height="202">
+          <p>You are now level <span id="currentlevel" class="gold-text">Current level</span></p>
+        </div>
+      </div>
+    
+
+    <footer>
+    <div class="footerLinks">
+      <div>
+        <h5>CryptoHack</h5>
+        <a id="changeTheme">Light Mode</a><br>
+        <a href="https://cryptohack.org/faq/">FAQ</a><br>
+        <a href="https://cryptohack.org/blog/">Blog</a><br>
+        <span class="footerIcon">
+          <a href="https://twitter.com/cryptohack__" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="https://discord.gg/h9E7cna5pV" aria-label="Discord"><img src="CryptoHack%20%E2%80%93%20Elliptic%20Curves%20-%20Background%20Reading_files/Discord-Logo-Color.svg" width="25"></a>
+          <a href="https://patreon.com/cryptohack" aria-label="Patreon"><i class="fab fa-patreon"></i></a>
+        </span><br>
+
+      </div>
+
+      <div>
+        <h5>Courses</h5>
+        <a href="https://cryptohack.org/courses/intro/">Introduction to CryptoHack</a><br>
+        <a href="https://cryptohack.org/courses/modular/">Modular Arithmetic</a><br>
+        <a href="https://cryptohack.org/courses/symmetric/">Symmetric Cryptography</a><br>
+        <a href="https://cryptohack.org/courses/public-key/">Public-Key Cryptography</a><br>
+        <a href="https://cryptohack.org/courses/elliptic/">Elliptic Curves</a><br>
+      </div>
+
+      <div>
+        <h5>Categories</h5>
+        <a href="https://cryptohack.org/challenges/general/">General</a><br>
+        <a href="https://cryptohack.org/challenges/maths/">Mathematics</a><br>
+        <a href="https://cryptohack.org/challenges/aes/">Symmetric Ciphers</a><br>
+        <a href="https://cryptohack.org/challenges/rsa/">RSA</a><br>
+        <a href="https://cryptohack.org/challenges/diffie-hellman/">Diffie-Hellman</a><br>
+        <a href="https://cryptohack.org/challenges/ecc/">Elliptic Curves</a><br>
+        <a href="https://cryptohack.org/challenges/hashes/">Hash Functions</a><br>
+        <a href="https://cryptohack.org/challenges/misc/">Miscellaneous</a><br>
+        <a href="https://cryptohack.org/challenges/web/">Crypto on the Web</a><br>
+      </div>
+    </div>
+
+
+    <div class="credits">
+      <h5>Credits</h5>
+      Illustrations from <a href="https://icons8.com/">Ouch.pics</a><br>
+      Drawn by <a href="https://dribbble.com/thierryfousse">Thierry Fousse</a> and <a href="https://icons8.com/illustrations/author/60ab64bc8e3740e9be238b13">Tatyana Krasutskaya</a>
+
+    </div>
+
+    <div class="copyright">
+      <span>
+        <a href="https://cryptohack.org/privacy-policy/">Privacy Policy</a> &nbsp;
+      </span>
+
+      <span>
+        © <span class="" data-timestamp="2022-03-07T16:29:58Z" data-function="format" data-format="YYYY" data-refresh="0" style="">2022</span> CryptoHack
+      </span>
+    </div>
+    </footer>
+
+    <script type="text/javascript">
+    function updateThemeToggleFooter() {
+      var elem = document.querySelector('#changeTheme');
+      elem.innerHTML = isLightThemeSelected() ? 'Dark Mode' : 'Light Mode'
+    }
+
+    (function() {
+      updateThemeToggleFooter()
+    })();
+
+    function togglePageContentLightDark() {
+        var html = document.getElementsByTagName('html')[0]
+        var currentClass = html.className
+        var newClass = html.className == 'dark-mode' ? 'light-mode' : 'dark-mode'
+        html.className = newClass
+
+        document.cookie = 'theme=' + (newClass == 'light-mode' ? 'light' : 'dark') + ';SameSite=Strict;path=/;domain=cryptohack.org;expires=Fri, 31 Dec 9999 23:59:59 GMT'
+        console.log('Cookies are now: ' + document.cookie)
+
+        var elem = document.querySelector('#changeTheme');
+        elem.innerHTML = isLightThemeSelected() ? 'Dark Mode' : 'Light Mode'
+    }
+
+    $("#changeTheme").on("click", function(e){
+    togglePageContentLightDark();
+
+    if ($("#darktheme").length) {
+      if(isLightThemeSelected()){
+        $('#darktheme').prop('checked', false);
+        $('#lighttheme').prop('checked', true);
+      }
+      else{
+        $('#darktheme').prop('checked', true);
+        $('#lighttheme').prop('checked', false);
+      }
+    }
+    });
+    </script>
+<div class="material-tooltip" id="ada2b3a4-0ed3-c64d-c6d9-5505e86674f5"><span>Level</span><div class="backdrop" style="top: 0px; left: 0px;"></div></div><div class="material-tooltip" id="5e65373b-1234-e912-5f75-1cab86e9334c"><span>Points</span><div class="backdrop" style="top: 0px; left: 0px;"></div></div><div class="material-tooltip" id="45317d01-c4bf-e1ae-13ca-c3bc86ddd49a"><span>615 points to next level (665/1280)</span><div class="backdrop" style="top: 0px; left: 0px;"></div></div><div class="material-tooltip" id="415cecdc-82a1-05ad-9cb6-0edf9584fa49"><span>You have solved this challenge</span><div class="backdrop" style="top: 0px; left: 0px;"></div></div><div class="material-tooltip" id="0b31651b-9800-40a1-5a9e-ec372b4105b5"><span>You have not yet solved this challenge</span><div class="backdrop" style="top: 0px; left: 0px;"></div></div><div class="material-tooltip" id="8065fda7-bbb5-ad7b-2168-97da7c1c56a3"><span>You've solved 0 of 11 challenges in this course (0%)</span><div class="backdrop" style="top: 0px; left: 0px;"></div></div><div class="hiddendiv common"></div><div class="drag-target" style="left: 0px; touch-action: pan-y;"></div></body></html>
